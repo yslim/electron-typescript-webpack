@@ -1,0 +1,25 @@
+{
+  "productName": "MailAlarm",
+  "directories": {
+    "app": "dist",
+    "output": "app-builds"
+  },
+  "win": {
+    "icon": "dist/logo",
+    "target": [
+      "portable"
+    ]
+  },
+  "mac": {
+    "icon": "dist/logo",
+    "target": [
+      "dmg"
+    ]
+  },
+  "linux": {
+    "icon": "dist",
+    "target": [
+      "AppImage"
+    ]
+  }
+}

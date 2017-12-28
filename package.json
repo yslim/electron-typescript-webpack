@@ -1,0 +1,34 @@
+{
+   "name": "mail-alarm",
+   "version": "1.0.0",
+   "description": "",
+   "main": "main.js",
+   "scripts": {
+      "build": "rimraf ./dist && webpack --config webpack.config.js",
+      "build:prod": "rimraf ./dist && NODE_ENV=production webpack --config webpack.config.js",
+      "prestart": "yarn run build",
+      "start": "electron ./dist/main.js",
+      "build:electron": "yarn run build && cd dist && yarn install --prod && cd ..",
+      "build:electron:prod": "yarn run build:prod && cd dist && yarn install --prod && cd ..",
+      "electron:serve": "yarn run build:electron && electron ./dist --serve",
+      "electron:linux": "yarn run build:electron:prod && npx electron-builder build --linux",
+      "electron:windows": "yarn run build:electron:prod && npx electron-builder build --windows",
+      "electron:mac": "yarn run build:electron:prod && npx electron-builder build --mac"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "devDependencies": {
+      "@types/node": "^8.5.2",
+      "copy-webpack-plugin": "^4.3.1",
+      "electron": "^1.7.10",
+      "electron-rebuild": "^1.6.0",
+      "electron-reload": "^1.2.2",
+      "html-webpack-plugin": "^2.30.1",
+      "rimraf": "^2.6.2",
+      "ts-loader": "^3.2.0",
+      "typescript": "^2.6.2",
+      "webpack": "^3.10.0"
+   },
+   "dependencies": {}
+}
