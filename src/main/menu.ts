@@ -1,131 +1,14 @@
 //
-// Created by yslim on 2017. 12. 25..
+// Created by yslim on 2017. 12. 24..
 //
-
-import {
-   app, BrowserWindow, Menu, shell, Tray,
-   MenuItemConstructorOptions, App, Shell
-} from 'electron';
-
-// import * as electron_reload from 'electron-reload';
-
-// Global reference to mainWindow
-// Necessary to prevent win from being garbage collected
-let mainWindow, isDev;
-
-const args = process.argv.slice (1);
-isDev = args.some (val => val === '--serve');
-
-// if (isDev)
-// {
-//    require ('electron-reload') (__dirname, {});
-// }
-
-function createMainWindow ()
-{
-   // Create the browser window.
-   const window = new BrowserWindow ({
-      width: 800,
-      height: 600
-   });
-
-   const url = `file://${__dirname}/index.html`;
-
-   // if (isDev) {
-   //    window.webContents.openDevTools();
-   // }
-
-   window.loadURL (url);
-
-   // Emitted when the window is closed.
-   window.on ('closed', () =>
-   {
-      // Dereference the window object, usually you would store windows
-      // in an array if your app supports multi windows, this is the time
-      // when you should delete the corresponding element.
-      mainWindow = null;
-   });
-
-   return window;
-}
-
-function buildApplicationMenu ()
-{
-   const menu = menuTemplate (app, shell);
-   Menu.setApplicationMenu (Menu.buildFromTemplate (menu));
-}
-
-let appIcon;
-
-// This method will be called when Electron has finished
-function createTray ()
-{
-   const platform = require ('os').platform ();
-   const imageFolder = __dirname + '/assets/images';
-   let trayImage;
-
-   // // Determine appropriate icon for platform
-   if (platform == 'darwin')
-   {
-      trayImage = imageFolder + '/i5+.png';
-   }
-   else if (platform == 'win32')
-   {
-      trayImage = imageFolder + '/win/tray.ico';
-   }
-
-   appIcon = new Tray (trayImage);
-   let image = require ('electron').nativeImage.createFromPath (trayImage);
-   image.setTemplateImage (true);
-
-   if (platform == "darwin")
-   {
-      appIcon.setPressedImage (image);
-   }
-}
-
-// initialization and is ready to create browser windows.
-function appReady ()
-{
-   // only for menubar app
-   // don't call createMainWindow
-   createMainWindow ();
-   buildApplicationMenu ();
-   // createTray ();
-}
-
-// Some APIs can only be used after this event occurs.
-app.on ('ready', appReady);
-
-
-// Quit when all windows are closed.
-app.on ('window-all-closed', () =>
-{
-   // On macOS it is common for applications and their menu bar
-   // to stay active until the user quits explicitly with Cmd + Q
-   if (process.platform !== 'darwin')
-   {
-      app.quit ();
-   }
-});
-
-app.on ('activate', () =>
-{
-   // On macOS it's common to re-create a window in the app when the
-   // dock icon is clicked and there are no other windows open.
-   if (mainWindow === null)
-   {
-      mainWindow = createMainWindow ();
-   }
-});
+import { MenuItemConstructorOptions, App, Shell } from 'electron';
 
 //
 // refer to https://www.npmjs.com/package/electron-default-menu for macOS menu
 //
-function menuTemplate (app: App, shell: Shell)
+export function menuTemplate (app: App, shell: Shell)
 {
 
-   // noinspection TypeScriptValidateTypes
    const template: MenuItemConstructorOptions[] = [
       {
          label: 'Edit',
@@ -141,7 +24,7 @@ function menuTemplate (app: App, shell: Shell)
                role: 'redo'
             },
             {
-               type: 'separator',
+               type: 'separator'
             },
             {
                label: 'Cut',
@@ -174,7 +57,7 @@ function menuTemplate (app: App, shell: Shell)
                click: function (item, focusedWindow)
                {
                   if (focusedWindow)
-                     focusedWindow.reload ();
+                     focusedWindow.reload();
                }
             },
             {
@@ -185,11 +68,11 @@ function menuTemplate (app: App, shell: Shell)
                      return 'Ctrl+Command+F';
                   else
                      return 'F11';
-               }) (),
+               })(),
                click: function (item, focusedWindow)
                {
                   if (focusedWindow)
-                     focusedWindow.setFullScreen (!focusedWindow.isFullScreen ());
+                     focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
                }
             },
             {
@@ -200,11 +83,11 @@ function menuTemplate (app: App, shell: Shell)
                      return 'Alt+Command+I';
                   else
                      return 'Ctrl+Shift+I';
-               }) (),
+               })(),
                click: function (item, focusedWindow)
                {
                   if (focusedWindow)
-                     focusedWindow.webContents.toggleDevTools ();
+                     focusedWindow.webContents.toggleDevTools();
                }
             },
          ]
@@ -233,7 +116,7 @@ function menuTemplate (app: App, shell: Shell)
                label: 'Learn More',
                click: function ()
                {
-                  shell.openExternal ('http://electron.atom.io');
+                  shell.openExternal('http://electron.atom.io')
                }
             },
          ]
@@ -242,9 +125,13 @@ function menuTemplate (app: App, shell: Shell)
 
    if (process.platform === 'darwin')
    {
-      let name: string = app.getName ();
+      let name: string = app.getName()
+         .split('-').map((part) =>
+         {
+            return part.charAt(0).toUpperCase() + part.slice(1);
+         }).join('');
 
-      template.unshift ({
+      template.unshift({
          label: name,
          submenu: [
             {
@@ -286,7 +173,7 @@ function menuTemplate (app: App, shell: Shell)
                accelerator: 'Command+Q',
                click: function ()
                {
-                  app.quit ();
+                  app.quit();
                }
             },
          ]
@@ -296,13 +183,13 @@ function menuTemplate (app: App, shell: Shell)
       // {
       //   return m.role === 'window'
       // });
-      const windowMenu = template.filter ((m) =>
+      const windowMenu = template.filter((m) =>
       {
          return m.role === 'window';
-      })[ 0 ];
+      })[0];
       if (windowMenu && windowMenu.submenu instanceof Array)
       {
-         windowMenu.submenu.push (
+         windowMenu.submenu.push(
             {
                type: 'separator'
             },
@@ -313,6 +200,6 @@ function menuTemplate (app: App, shell: Shell)
          );
       }
    }
-
+   
    return template;
 }

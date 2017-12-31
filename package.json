@@ -1,5 +1,5 @@
 {
-   "name": "mail-alarm",
+   "name": "MailAlarm",
    "version": "1.0.0",
    "description": "",
    "main": "main.js",
@@ -21,14 +21,19 @@
    "devDependencies": {
       "@types/node": "^8.5.2",
       "copy-webpack-plugin": "^4.3.1",
+      "css-loader": "^0.28.7",
       "electron": "^1.7.10",
       "electron-rebuild": "^1.6.0",
       "electron-reload": "^1.2.2",
+      "extract-text-webpack-plugin": "^3.0.2",
       "html-webpack-plugin": "^2.30.1",
       "rimraf": "^2.6.2",
+      "style-loader": "^0.19.1",
       "ts-loader": "^3.2.0",
       "typescript": "^2.6.2",
       "webpack": "^3.10.0"
    },
-   "dependencies": {}
+   "dependencies": {
+      "jquery": "^3.2.1"
+   }
 }
