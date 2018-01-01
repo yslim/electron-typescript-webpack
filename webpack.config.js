@@ -24,10 +24,6 @@ plugins.push(
 );
 
 const commonConfig = {
-   output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: '[name].js'
-   },
    module: {
       rules: [
          {
@@ -55,6 +51,10 @@ const commonConfig = {
 module.exports = [
    Object.assign(
       {
+         output: {
+            path: path.resolve(__dirname, 'dist'),
+            filename: '[name].js'
+         },
          target: 'electron-main',
          entry: { main: './src/main/main.ts' },
          plugins: plugins
@@ -62,6 +62,10 @@ module.exports = [
       commonConfig),
    Object.assign(
       {
+         output: {
+            path: path.resolve(__dirname, 'dist'),
+            filename: '[name].[chunkhash:10].js'
+         },
          target: 'electron-renderer',
          entry: { app: './src/renderer/app.ts' },
          plugins: [
